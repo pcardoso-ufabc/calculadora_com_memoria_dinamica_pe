@@ -12,7 +12,7 @@ Node* criar_no(int dado) {
 
 //Subtracao
 
-int subtracao(int A[], int tamA, int B[], int tamB, int S[], int *neg) {
+int subtracao(int A[], int tamA, int B[], int tamB, int S[], int *neg, int MAX) {
    int tempA[MAX], tempB[MAX];
     memcpy(tempA, A, tamA * sizeof(int));
     memcpy(tempB, B, tamB * sizeof(int));
@@ -28,7 +28,9 @@ int subtracao(int A[], int tamA, int B[], int tamB, int S[], int *neg) {
     }
 
     int i = tamA - 1, j = tamB - 1, k = MAX, emprestimo = 0;
-    int temp[MAX + 1] = {0};
+    int temp[MAX + 1];
+    for (int i = 0; i < MAX + 1; i++)
+        temp[i] = 0;
 
     while (i >= 0) {
         int digA = tempA[i] - emprestimo;
@@ -94,7 +96,7 @@ int multiplicacao(int A[], int tamA, int B[], int tamB, int S[]) {
 
 //Divisao
 
-int divisao(int A[], int tamA, int B[], int tamB, int Q[], int R[], int *tamR) {
+int divisao(int A[], int tamA, int B[], int tamB, int Q[], int R[], int *tamR, int MAX) {
     // Verifica divisão por zero
     if (tamB == 1 && B[0] == 0) {
         return -1;
@@ -109,9 +111,13 @@ int divisao(int A[], int tamA, int B[], int tamB, int Q[], int R[], int *tamR) {
         return 1;
     }
     
-    int resto[2 * MAX] = {0};
+    int resto[2 * MAX];
+    for (int i = 0; i < 2 * MAX; i++)
+        resto[i] = 0;
     int tamResto = 0;
-    int quociente[MAX] = {0};
+    int quociente[MAX];
+    for (int i = 0; i < MAX; i++)
+        quociente[i] = 0;
     int tamQuociente = 0;
     
     // Para cada dígito de A
@@ -134,7 +140,7 @@ int divisao(int A[], int tamA, int B[], int tamB, int Q[], int R[], int *tamR) {
         while (digito < 10 && maior_ou_igual(resto, tamResto, B, tamB)) {
             int temp[2 * MAX];
             int neg = 0;
-            int novoTam = subtracao(resto, tamResto, B, tamB, temp, &neg);
+            int novoTam = subtracao(resto, tamResto, B, tamB, temp, &neg, MAX);
             
             for (int j = 0; j < novoTam; j++)
                 resto[j] = temp[j];
@@ -165,9 +171,11 @@ int divisao(int A[], int tamA, int B[], int tamB, int Q[], int R[], int *tamR) {
 
 //Soma
 
-int soma(int A[], int tamA, int B[], int tamB, int S[]) {
+int soma(int A[], int tamA, int B[], int tamB, int S[], int MAX) {
  int i = tamA - 1, j = tamB - 1, k = MAX, resto = 0;
-    int temp[MAX + 1] = {0};
+    int temp[MAX + 1];
+    for (int i = 0; i < MAX + 1; i++)
+        temp[i] = 0;
 
     while (i >= 0 || j >= 0 || resto) {
         int digA = (i >= 0) ? A[i--] : 0;
@@ -184,7 +192,6 @@ int soma(int A[], int tamA, int B[], int tamB, int S[]) {
 
     return digitos;
 }
-
 //Maior ou igual
 
 int maior_ou_igual(int A[], int tamA, int B[], int tamB){
@@ -276,4 +283,30 @@ void fatorial(int n) {
     liberar_lista_aux(head);
 }
 
+char* ler_string(int *MAX, int *tamanho) {
 
+    char *str = malloc(*MAX * sizeof(char));
+    if (!str) return NULL;
+
+    *tamanho = 0; 
+
+    int c;
+    while ((c = getchar()) != '\n' && c != EOF) {
+
+        str[*tamanho] = c; 
+        (*tamanho)++;
+
+        if (*tamanho >= *MAX - 1) {
+            *MAX *= 2;
+            char *temp = realloc(str, *MAX * sizeof(char));
+            if (!temp) {
+                free(str);
+                return NULL;
+            }
+            str = temp;
+        }
+    }
+
+    str[*tamanho] = '\0';
+    return str;
+}
