@@ -2,16 +2,18 @@
 #include <string.h>
 #include "operacoes.h"
 
-#define MAX 101
-
 int main() {
     
-    char num_1 [MAX], num_2 [MAX];
+    int MAX = 2, tamanho = 0;
+    
+    printf("Digite o primeiro numero inteiro: ");
+    char *num_1 = ler_string(&MAX, &tamanho);
+    
+    printf("Digite o segundo numero inteiro: ");
+    char *num_2 = ler_string(&MAX, &tamanho);
+    
     int A[MAX], B[MAX], S[2 * MAX];
     int ope = 0, negA = 0, negB = 0, digitos = 0, negativo = 0, tamA, tamB;
-    
-    printf("Digite dois valores inteiros: ");
-    scanf("%100s %100s", num_1, num_2);
     
     ler_numero(num_1, A, &tamA, &negA);
     ler_numero(num_2, B, &tamB, &negB);
@@ -34,10 +36,10 @@ int main() {
             printf("Soma e ");
             
             if(negA == negB){
-                digitos = soma(A, tamA, B, tamB, S);
+                digitos = soma(A, tamA, B, tamB, S, MAX);
                 negativo = negA;
             } else {
-                digitos = subtracao(A, tamA, B, tamB, S, &negativo);
+                digitos = subtracao(A, tamA, B, tamB, S, &negativo, MAX);
                 if (maior_ou_igual(A, tamA, B, tamB))
                     negativo = negA;
                 else
@@ -50,10 +52,10 @@ int main() {
             printf("Subtracao e ");
             
             if (negA != negB) {
-                digitos = soma(A, tamA, B, tamB, S);
+                digitos = soma(A, tamA, B, tamB, S, MAX);
                 negativo = negA;
             } else {
-                digitos = subtracao(A, tamA, B, tamB, S, &negativo);
+                digitos = subtracao(A, tamA, B, tamB, S, &negativo, MAX);
                 if (!maior_ou_igual(A, tamA, B, tamB))
                     negativo = !negA;
                 else
@@ -72,7 +74,7 @@ int main() {
             int Q[MAX], R[MAX];
             int tamR = 0;
             
-            digitos = divisao(A, tamA, B, tamB, Q, R, &tamR);
+            digitos = divisao(A, tamA, B, tamB, Q, R, &tamR, MAX);
             
             if (digitos == -1) {
                 printf("Erro: Divisao por zero\n");
@@ -99,7 +101,7 @@ int main() {
             int Q[MAX], R[MAX];
             int tamR = 0;
             
-            digitos = divisao(A, tamA, B, tamB, Q, R, &tamR);
+            digitos = divisao(A, tamA, B, tamB, Q, R, &tamR, MAX);
             
             if (digitos == -1) {
                 printf("Erro: Divisao por zero\n");
@@ -108,6 +110,7 @@ int main() {
                 printf("Modulo e ");
                 imprime_resultado(R, tamR, 0);
             }
+
         } else if(ope == 7) {
             printf("Operacao encerrada\n");
         } else {
