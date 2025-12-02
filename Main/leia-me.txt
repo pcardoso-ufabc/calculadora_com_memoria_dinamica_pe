@@ -31,19 +31,20 @@ mas ainda não executável.
 
 2) Compilação do módulo principal (main)
 
-    gcc -c main.c -o main.o
+    gcc -c Main.c -o Main.o
 
 Este comando compila separadamente o arquivo main.c, gerando o arquivo objeto
 main.o, que contém a função main()
 
 3) Etapa de linkagem
 
-    gcc main.o operacoes.o -o calculadora
+    gcc Main.o operacoes.o -o calculadora
 
 Nesta etapa, os arquivos objeto main.o e operacoes.o são ligados, resultando
 no executável final denominado "calculadora". Os arquivos .o isoladamente não
 podem ser executados, pois ainda não formam um programa completo.
 
 Após a compilação, o programa pode ser executado com:
+
 
     ./calculadora
